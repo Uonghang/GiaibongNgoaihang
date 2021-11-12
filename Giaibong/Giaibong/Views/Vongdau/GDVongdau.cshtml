@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Giaibong.Models.Vongdau>
+@using Giaibong.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    int a;
+}
+
+<h2 style="margin:30px;">Vòng đấu</h2>
+<div class="containner vongdau" style="margin:30px;">
+    <div>Chọn vòng đấu</div>
+    @Html.DropDownList("Tenvongdau", ((IEnumerable<Giaibong.Models.Vongdau>)
+    Model).Select(option => new SelectListItem
+    {
+        Text = option.Tenvongdau,
+        Value = option.ID.ToString(),
+
+    }), new { @class = "select_id" })
+    <br />
+    <div>
+        <button class="btn_Vongdau btn btn-primary">Chọn</button>
+    </div>
+
+</div>
+<script>
+
+    var id = $('.select_id').val();
+    $('.select_id').change(function () {
+        id = $(this).val();
+    })
+    $('.btn_Vongdau').click(function () {
+        $.ajax({
+            type: 'POST',
+            url:'/Vongdau/GetID',
+            data: { Id: id },
+            success: function (data) {
+                window.location.href ="@Url.Action("GDTrandau", "Trandau")";
+        }
+
+
+        })
+    })
+</script>

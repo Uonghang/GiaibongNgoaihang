@@ -1,0 +1,123 @@
+﻿@using Giaibong.Models;
+@model Giaibong.Models.LoginModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@{
+    LoginModel m = (LoginModel)@Session["Nhanvien"];
+}
+<body>
+    <div class="row body-info">
+
+        <!-- Modal -->
+        <div class="modal fade" id="update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="exampleModalLabel">Sửa thông tin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+                            <div class="form-group">
+                                <label>ID</label>
+                                @Html.TextBoxFor(model => model.ID, new { @class = "form-control", @Value = "" + @m.ID + "" })
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tên</label>
+                                @Html.TextBoxFor(model => model.Ten, new { @class = "form-control", @Value = @m.Ten })
+                            </div>
+                            <div class="form-group">
+                                <label>Địa Chỉ</label>
+                                @Html.TextBoxFor(model => model.Diachi, new { @class = "form-control", @Value = @m.Diachi,  })
+
+                            </div>
+                            <div class="form-group">
+                                <label>Số điện thoại</label>
+                                @Html.TextBoxFor(model => model.Sdt, new { @class = "form-control", @Value = @m.Sdt,})
+
+                            </div>
+                            <div class="form-group">
+                                <label>Vi tri</label>
+                                @Html.TextBoxFor(model => model.Vitri, new { @class = "form-control", @Value = @m.Vitri })
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @Value = @m.Username })
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @Value = @m.Password, @type = "password" })
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" style="font-size:14px">
+            <div style="background-color: white;">
+                <h3 class="text-center" style="padding: 20px;color:black;">Thông tin cá nhân</h3>
+                <div class="row container">
+                    <div class="col-lg-6 col-md-12 avatar">
+                        <img src="~/Assets/img/user.jpg" style="width:100%" alt="Image" />
+                    </div>
+                    <div class="col-lg-6 col-md-12" style="margin-top: 45px;">
+                        <form method="POST" style="margin-bottom:50px;width:70%">
+                            <input type="hidden" class="form-control align-center" name="id" value="" readonly>
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input type="text" class="form-control align-center" name="Id" value=@m.ID readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Ten</label>
+                                <input type="text" class="form-control align-center" name="ten" value=@m.Ten readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Diachi</label>
+                                <input type="text" class="form-control align-center" name="diachi" value=@m.Diachi readonly>
+
+                            </div>
+                            <div class="form-group">
+                                <label>Sdt</label>
+                                <input type="text" class="form-control align-center" name="sdt" value=@m.Sdt readonly>
+
+                            </div>
+                            <div class="form-group">
+                                <label>Vitri</label>
+                                <input type="text" class="form-control align-center" name="vitri" value="@m.Vitri" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" class="form-control align-center" name="username" value="@m.Username" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control align-center" name="Password" value="@m.Password" readonly>
+                            </div>
+
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#update"><i class="fas fa-edit"></i>Sửa thông tin</button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>

@@ -1,0 +1,84 @@
+﻿
+@using Giaibong.Code
+@{
+    string Username = SessionHttp.Username;
+}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="~/Assets/css/styleadmin.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/stylecart.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="~/Assets/fontawesome/all.min.css" />
+    <link rel="stylesheet" href="~/Assets/bootstrap/css/bootstrap.min.css" />
+
+    <script src="~/Assets/bootstrap/js/icons.js"></script>
+    <script src="~/Assets/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Assets/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="~/Assets/bootstrap/js/script.js"></script>
+
+    <title>Admin</title>
+</head>
+
+<body>
+    <style>
+        .content-right {
+            width: 80%;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <button id="sidebarCollapse" class="btn navbar-btn">
+            <i class="fas fa-lg fa-bars"></i>
+        </button>
+        <a class="navbar-brand" href="">
+            <h4 id="logo">Quản lý Giải bóng</h4>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active dangxuat">
+                    @Html.ActionLink("Đăng xuất", "Index", "Login")
+                </li>
+               
+            </ul>
+        </div>
+    </nav>
+
+    <div class="wrapper fixed-left" style="font-size: 14px";>
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h4 style="color:black">
+                    <i class="fas fa-user"> </i>
+                    @Username
+                </h4>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="@Url.Action("GDHome","Home")"><i class="fas fa-home"></i>Thông tin cá nhân</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("GDVongdau","Vongdau")"><i class="fas fa-clipboard"></i>Đăng ký danh sách Cầu thủ cho trận đấu</a>
+
+                </li>
+            </ul>
+        </nav>
+        <div class="content-right">
+            @RenderBody()
+        </div>
+
+    </div>
+
+
+
+</body>
+</html>

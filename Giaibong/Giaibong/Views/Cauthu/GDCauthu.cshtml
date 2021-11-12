@@ -1,0 +1,143 @@
+﻿
+@using Giaibong.Models
+@model dynamic
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div style="margin:20px;">
+    <h2>Danh sách cầu thủ của Đội bóng</h2>
+    <div class="nofyDangkythanhcong">
+
+        <div>Đăng kí Cầu thủ thành công</div>
+
+    </div>
+    <div class="nofyDangkyThatbai">
+
+        <div>Vui lòng chọn lại đủ 16 cầu thủ</div>
+
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                Tên Cầu thủ
+            </th>
+            <th>
+                Ngày sinh
+            </th>
+            <th>
+                Vị trí Đá
+            </th>
+
+            <th>
+                Chân thuận
+            </th>
+            <th>
+                Chiều cao
+            </th>
+            <th>
+                Cân nặng
+            </th>
+            <th>
+                Đặc điểm
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (Cauthu item in Model.model)
+        {
+
+            int count = 0;
+            <tr>
+                <td>
+                    @foreach (var list in Model.list)
+                    {
+                        if (item.ID == list.Id_Cauthu)
+                        {
+                            <input onclick="myfunction(@item.ID)" type="checkbox" checked />
+                            count++;
+                            break;
+                        }
+                    }
+                    @if (count == 0)
+                    {
+                        <input onclick="myfunction(@item.ID)" type="checkbox" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ten)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ngaysinh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Chanthuan)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Chieucao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cannang)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dacdiem)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+    <div class="btn-footer" style="display: flex; justify-content: space-between;">
+        <div>
+            <a href="@Url.Action("GDTrandau","Trandau")" class="btn btn-primary">
+                Trở lại
+            </a>
+            
+        </div>
+        <div>
+            <button onclick="dangky()" class="btn btn-primary" style="margin-right: 60px;">Đăng ký</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function myfunction(id) {
+
+        $.ajax({
+            type: 'POST',
+            url: '/Cauthu/Status',
+            data: { Id: id }
+        })
+    }
+    function dangky() {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '/Cauthu/DangkyCauthu',
+            success: function (data) {
+                if (data == true) {
+                    $('.nofyDangkythanhcong').show();
+                    setTimeout(function () {
+                        $('.nofyDangkythanhcong').fadeOut();
+                    }, 3000);
+                }
+                else {
+                    $('.nofyDangkyThatbai').show();
+                    setTimeout(function () {
+                        $('.nofyDangkyThatbai').fadeOut();
+                    }, 3000);
+                }
+            },
+            error: function (data) {
+                alert("Thất bại");
+            }
+        })
+    }
+</script>

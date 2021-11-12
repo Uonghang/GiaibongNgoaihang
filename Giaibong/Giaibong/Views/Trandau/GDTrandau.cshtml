@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Giaibong.Models.Trandau>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div style="margin:20px;">
+    <h2>Lịch thi đấu</h2>
+
+
+    <table class="table" style="margin-top:30px;">
+        <tr>
+            <th>
+                Tên trận đấu
+            </th>
+            <th>
+                Tên đội bóng
+            </th>
+            <th>
+                Ngày thi đấu
+            </th>
+            <th>
+                Sân thi đấu
+            </th>
+            <th>
+                Trang phục
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ten)
+                </td>
+                <td>
+                    <a href="@Url.Action("GDCauthu","Cauthu",new {TrandauID=item.ID,DoibongID=item.DoibongID})">
+                        @Html.DisplayFor(modelItem => item.TenDoibong)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ngaythidau)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Diachi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Trangphuc)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+    <div>
+        <a href="@Url.Action("GDVongdau","Vongdau")" class="btn btn-primary">
+            Trở lại
+        </a>
+    </div>
+</div>
