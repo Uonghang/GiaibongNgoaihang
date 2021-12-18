@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 namespace Giaibong.Database
 {
-    public class NhanvienDAO
+    public class NhanvienDAO:DAO
     {
         private SqlConnection connect;
         private SqlCommand cmd;
@@ -12,8 +12,7 @@ namespace Giaibong.Database
         public LoginModel LoginNhanvien(string sql, Object[] parames = null)
         {
             LoginModel m = new LoginModel();
-            DAO dao = new DAO();
-            using (this.connect = new SqlConnection(dao.constring))
+            using (this.connect = new SqlConnection(constring))
             {
                 this.connect.Open();
                 cmd = new SqlCommand(sql, this.connect);

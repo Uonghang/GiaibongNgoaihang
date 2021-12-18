@@ -5,18 +5,21 @@ using System.Data.SqlClient;
 
 namespace Giaibong.Database
 {
-    public class VongdauDAO
+    public class VongdauDAO:DAO
     {
         private SqlConnection connect;
         private SqlCommand cmd;
         private SqlDataReader dt;
-
-        public List<Vongdau> GetVongdauByID(string sql)
+        /// <summary>
+        /// Get Vongdau
+        /// </summary>
+        /// <returns></returns>
+        public List<Vongdau> GetVongdau()
         {
+            string sql = "select*from Vongdau";
             List<Vongdau> list = new List<Vongdau>();
             Vongdau m = new Vongdau();
-            DAO dao = new DAO();
-            using ( this.connect= new SqlConnection(dao.constring))
+            using ( this.connect= new SqlConnection(constring))
             {
                 this.connect.Open();
                 cmd = new SqlCommand(sql, this.connect);

@@ -5,17 +5,23 @@ using System.Data.SqlClient;
 
 namespace Giaibong.Database
 {
-    public class TrandauDAO
+    public class TrandauDAO:DAO
     {
         private SqlConnection connect;
         private SqlCommand cmd;
         private SqlDataReader dt;
-        public List<Trandau> GetTrandauByID(string sql)
+        /// <summary>
+        /// Get Vong dau
+        /// </summary>
+        /// <param name="VongdauID"></param>
+        /// <returns>List Trandau</returns>
+        public List<Trandau> GetTrandauByID(int VongdauID)
         {
+            string sql = "select db.DoibongID,td.ID,td.Ten [Tên trận đấu],d.Ten as [Tên đội bóng],td.Ngaythidau [Ngày thi đấu],d.Diachi[Địa chỉ],d.Trangphuc [Trang phục]from Doibong_Trandau db " +
+                "inner join  Trandau td on td.ID=db.TrandauID inner join Doibong d on d.ID = db.DoibongID where td.VongdauID =" + VongdauID + "";
             List<Trandau> list = new List<Trandau>();
             Trandau m = new Trandau();
-            DAO dao = new DAO();
-            using (this.connect = new SqlConnection(dao.constring))
+            using (this.connect = new SqlConnection(constring))
             {
                 this.connect.Open();
                 cmd = new SqlCommand(sql, this.connect);

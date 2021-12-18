@@ -11,9 +11,9 @@ namespace Giaibong.Controllers
         // GET: Vongdau
         public ActionResult GDVongdau()
         {
-            string sql = "select*from Vongdau";
+            
             VongdauDAO dao = new VongdauDAO();
-            List<Vongdau> list = dao.GetVongdauByID(sql);
+            List<Vongdau> list = dao.GetVongdau();
 
             return View(list);
         }

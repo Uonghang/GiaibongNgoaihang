@@ -9,12 +9,14 @@ namespace UnitTest
     [TestClass]
     public class TestVongdauDAO
     {
+        /// <summary>
+        /// Test Vongdau Not Null
+        /// </summary>
         [TestMethod]
         public void VongdauNotNull()
         {
             VongdauDAO dao = new VongdauDAO();
-            string sql = "select*from Vongdau";
-            List<Vongdau> list = dao.GetVongdauByID(sql);
+            List<Vongdau> list = dao.GetVongdau();
             Assert.AreNotEqual(list.Count, 0);
         }
     }

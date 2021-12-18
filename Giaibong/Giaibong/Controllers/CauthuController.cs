@@ -15,21 +15,18 @@ namespace Giaibong.Controllers
         {
             
             dynamic mymodel = new ExpandoObject();
-            string resetStatus = "Update Cauthu set Status=0";
-            DAO.Singleton.Excute_Modify(resetStatus);
-            string getDSCauthu = "select*from Cauthu where DoibongID='" + DoibongID + "'";
-            List<Cauthu> model = cauthuDAO.GetCauthuByID(getDSCauthu);
+            cauthuDAO.ResetStatus();
+            List<Cauthu> model = cauthuDAO.GetCauthuByID(DoibongID);
             SessionHttp.Id_Trandau = TrandauID;
             SessionHttp.Id_Doibong = DoibongID;
-            string StatusDangky = "select CauthuID from DSCauthuTrandau ds inner join Doibong_Trandau td " +
-                "on td.TrandauID = ds.TrandauID where td.DoibongID='" + DoibongID + "' and td.TrandauID='" + TrandauID + "'";
-            List<CauthuTrandau> list = dao.GetCauThuTrandauByID(StatusDangky);
+            
+            List<CauthuTrandau> list = dao.GetCauThuTrandauByID(DoibongID, TrandauID);
             if (list.Count > 0)
             {
                 foreach (var item in list)
                 {
-                    string updateStatus = "Update Cauthu set Status=1 where DoibongID='" + DoibongID + "' and ID='" + item.Id_Cauthu + "'";
-                    DAO.Singleton.Excute_Modify(updateStatus);
+                    
+                   cauthuDAO.UpdateCauthu(DoibongID,item.Id_Cauthu);
                 }
 
             }
@@ -39,46 +36,36 @@ namespace Giaibong.Controllers
         }
         public void Status(int Id)
         {
-            string sql1 = "Select*from Cauthu where ID='" + Id + "'";
-            Cauthu model = cauthuDAO.GetCauthu(sql1);
-            string sql = "";
+            
+            Cauthu model = cauthuDAO.GetCauthu(Id);
             if (model.Status == 0)
             {
-                sql = "Update Cauthu set Status=1 where ID='" + Id + "'";
+                cauthuDAO.UpdateStatus(1, Id);
             }
             else
             {
-                sql = "Update Cauthu set Status=0 where ID='" + Id + "'";
+                cauthuDAO.UpdateStatus(0, Id);
             }
-            DAO.Singleton.Excute_Modify(sql);
-
         }
         public JsonResult DangkyCauthu()
         {
 
             //Check xem đã chọn đủ 16 Cầu thủ chưa
-            string sql = "Select*from Cauthu where Status=1";
-            List<Cauthu> model = cauthuDAO.GetCauthuByID(sql);
+            
+            List<Cauthu> model = cauthuDAO.GetCauthuDangky();
 
             //Nếu thỏa mãn
             if (model.Count == 16)
             {
                 //lay ra Danh sach Cau thu Doi bong neu da duoc Dang ky
-                string StatusDangky = "select CauthuID from DSCauthuTrandau ds inner join Doibong_Trandau td " +
-                "on td.TrandauID = ds.TrandauID where td.DoibongID='" + SessionHttp.Id_Doibong + "' and td.TrandauID='" + SessionHttp.Id_Trandau + "'";
-                List<CauthuTrandau> list =dao.GetCauThuTrandauByID(StatusDangky);
+                List<CauthuTrandau> list =dao.GetCauThuTrandauByID(SessionHttp.Id_Doibong, SessionHttp.Id_Trandau);
                 //Nếu đã đăng ký
                 if (list.Count > 0)
                 {
-                    string delete_Table = "delete DSCauthuTrandau where TrandauID='" + SessionHttp.Id_Trandau + "'" +
-                        "and CauthuID IN ("+StatusDangky+")";
-                    DAO.Singleton.Excute_Modify(delete_Table);
+                    dao.DeleteCauthu(SessionHttp.Id_Doibong, SessionHttp.Id_Trandau);
                     foreach (var item in model)
                     {
-                        string Insert_Table = "Insert into DSCauthuTrandau(TrandauID,CauthuID,Ten,VT) " +
-                    "values('" + SessionHttp.Id_Trandau + "','" + item.ID + "','" + item.Ten + "','" + item.VT + "')";
-                        dao.DangkyCauthu(Insert_Table);
-
+                        dao.DangkyCauthu(SessionHttp.Id_Trandau, item);
 
                     }
                 }
@@ -88,9 +75,7 @@ namespace Giaibong.Controllers
                 {
                     foreach (var item in model)
                     {
-                        string Insert_Table = "Insert into DSCauthuTrandau(TrandauID,CauthuID,Ten,VT) " +
-                        "values('" + SessionHttp.Id_Trandau + "','" + item.ID + "','" + item.Ten + "','" + item.VT + "')";
-                        dao.DangkyCauthu(Insert_Table);
+                        dao.DangkyCauthu(SessionHttp.Id_Trandau,item);
                     }
                 }
 

@@ -27,23 +27,6 @@ namespace Giaibong.Database
             constring = @"Data Source=DESKTOP-U8OMTB9\SQLEXPRESS;Initial Catalog=Giaibong;Persist Security Info=True;User ID=hang;Password=a0123456";
 
         }
-        //Ham insert/update/delete chung của project
-        public bool Excute_Modify(string sql)
-        {
-            int res = 0;
-            using (this.connect = new SqlConnection(constring))
-            {
-                this.connect.Open();
-                SqlCommand comand = new SqlCommand(sql, this.connect);
-                res = comand.ExecuteNonQuery();
-                this.connect.Close();
-            }
-            if (res > 0)
-            {
-                return true;
-            }
-            return false;
-
-        }
+       
     }
 }

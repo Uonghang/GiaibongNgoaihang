@@ -9,25 +9,37 @@ namespace UnitTest
     [TestClass]
     public class TestTranDauDAO
     {
+        /// <summary>
+        /// Test Trandau Null
+        /// </summary>
         [TestMethod]
-        public void TestTrandaudauISNull()
+        public void TestTrandauISNull()
         {
             TrandauDAO dao = new TrandauDAO();
-            string sql = "select db.DoibongID,td.ID,td.Ten [Tên trận đấu],d.Ten as [Tên đội bóng],td.Ngaythidau [Ngày thi đấu],d.Diachi[Địa chỉ],d.Trangphuc [Trang phục]from Doibong_Trandau db " +
-                "inner join  Trandau td on td.ID=db.TrandauID inner join Doibong d on d.ID = db.DoibongID where td.VongdauID =" + 2 + "";
-            List<Trandau> list =dao.GetTrandauByID(sql);
+            List<Trandau> list =dao.GetTrandauByID(2);
             Assert.AreEqual(list.Count,0);
         }
+        /// <summary>
+        /// Test TrandauNotNull
+        /// </summary>
         [TestMethod]
         public void TestTrandauNotNull()
         {
             TrandauDAO dao = new TrandauDAO();
-            string sql = "select db.DoibongID,td.ID,td.Ten [Tên trận đấu],d.Ten as [Tên đội bóng],td.Ngaythidau [Ngày thi đấu],d.Diachi[Địa chỉ],d.Trangphuc [Trang phục]from Doibong_Trandau db " +
-                "inner join  Trandau td on td.ID=db.TrandauID inner join Doibong d on d.ID = db.DoibongID where td.VongdauID =" + 1 + "";
-            List<Trandau> list = dao.GetTrandauByID(sql);
+            List<Trandau> list = dao.GetTrandauByID(1);
             Assert.AreNotEqual(list.Count,0);
         }
-        
-        
+        /// <summary>
+        /// Test Trandau không Tồn Tại
+        /// </summary>
+        [TestMethod]
+        public void TestTrandauExits()
+        {
+            TrandauDAO dao = new TrandauDAO();
+            List<Trandau> list = dao.GetTrandauByID(4);
+            Assert.AreEqual(list.Count, 0);
+        }
+
+
     }
 }
